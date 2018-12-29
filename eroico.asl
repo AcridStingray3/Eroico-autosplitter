@@ -1,8 +1,8 @@
 state ("eroico") {
 	
-	byte start : 0x0027D574, 0x4, 0x14, 0x8, 0x18, 0x4C4;
+	byte mainMenu : 0x0028FDA0, 0xE80, 0x54, 0x9C, 0xFC, 0x45C, 0x8, 0x4, 0x19C, 0xA5C, 0x3BC0;
 	byte checkpoints : 0x004452F8, 0x84, 0x4B0;
-	byte whiteScreen : 0x005119A0, 0x7CC, 0x1E4;
+	byte whiteScreen : 0x002886A8, 0x88, 0x22C, 0xC, 0x3C, 0x14, 0x8, 0x234C, 0x1C, 0x8;
 }
 
 startup {
@@ -15,13 +15,14 @@ startup {
 
 start {
 
-	return current.start != 0 && old.start == 0;
+	return current.mainMenu != 87 && old.mainMenu == 87;
 }
 
-//reset {
+reset {
 	
-//	return current.notInMainMenu == 0 && old.notInMainMenu != 0;
-//}
+	return current.mainMenu != 0 && old.mainMenu == 0;
+}
+
 
 split {
 
