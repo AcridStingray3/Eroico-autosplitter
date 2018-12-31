@@ -6,16 +6,18 @@ state ("eroico") {
 }
 
 startup {
-
+	
+	vars.lastSplitTime = timer.CurrentTime; 
 	settings.Add("checkpointSplit", true, "Split on checkpoints");
 	settings.Add("whiteScreenSplit", true, "Split on post boss white screens");
 
 }
 
-
 start {
 
+	vars.lastSplitTime = timer.CurrentTime;
 	return current.mainMenu < old.mainMenu;
+
 }
 
 reset {
@@ -26,8 +28,14 @@ reset {
 
 split {
 
-	return (settings["checkpointSplit"] && current.checkpoints != 0 && old.checkpoints == 0 ||
-		settings["whiteScreenSplit"] && current.whiteScreen == 1 && old.whiteScreen == 0 );
+	if ( (timer.CurrentTime - vars.lastSplitTime).RealTime.TotalSeconds >= 3.0	&& 
+	    (settings["checkpointSplit"] && current.checkpoints != 0 && old.checkpoints == 0 ||
+	     settings["whiteScreenSplit"] && current.whiteScreen == 1 && old.whiteScreen == 0) )
+		{
+		vars.lastSplitTime = timer.CurrentTime;
+		return true;
+		}
+
 }
 
 
