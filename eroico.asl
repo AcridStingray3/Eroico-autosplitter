@@ -1,6 +1,6 @@
 state ("eroico") {
 		
-	byte mainMenu : 0x0005C39C, 0xE4C, 0x4, 0x4, 0x2C, 0x4, 0x8C4, 0x1C08, 0x244, 0xA7C, 0x3B0; //previously used for start too but that was causing starts on game launch and exit. Kept around mostly for reset since the new startHelper has a chance of randomly resetting if used there too
+	byte mainMenu : 0x002840B0, 0x244, 0x90, 0x0, 0x3B4, 0x0, 0x244, 0xA7C, 0x3B0; //previously used for start too but that was causing starts on game launch and exit. Kept around mostly for reset since the new startHelper has a chance of randomly resetting if used there too
 	byte startHelper : 0x31190B;
 	byte checkpoints : 0x004452F8, 0x84, 0x4B0;
 	byte checkpointSafety : 0x004452F8, 0x84, 0x80; //the var for checkpoints probably tracks something for the girl's animation so it was very rarely triggering a split on the last boss. This pointer is never 0 in the last boss so it should fix that. 
@@ -19,7 +19,7 @@ startup {
 start {
 
 	vars.lastSplitTime = timer.CurrentTime;
-	return current.startHelper != 0 && old.startHelper == 0;
+	return current.startHelper != 0 && old.startHelper == 0 && old.mainMenu != 0;
 
 }
 
